@@ -17,34 +17,33 @@ export const toggleTodo = todo => ({
   todo
 });
 
-export const updateTodo = (id, content) => ({
+export const updateTodo = todo => ({
   type: 'UPDATE_TODO',
-  id,
-  content
+  todo
 });
 
-export const addTodoAPI = content => (dispatch, getState) => {
+export const addTodoAPI = content => dispatch => {
   const todo = new Todo(content);
   todosAPI.add(todo);
-  dispatch(addTodo({ ...todo }));
+  dispatch(addTodo(todo));
 };
 
 export const updateTodoAPI = (id, content) => {
-  return (dispatch, getState) => {
-    todosAPI.updateItemContent(id, content);
-    dispatch(getFilterTodosAPI(getState().statusOfList));
+  return dispatch => {
+    const todo = todosAPI.updateItemContent(id, content);
+    dispatch(updateTodo(todo));
   };
 };
 
 export const toggleTodoAPI = id => {
-  return (dispatch, getState) => {
+  return dispatch => {
     const todo = todosAPI.toggleActive(id);
     dispatch(toggleTodo(todo));
   };
 };
 
 export const getFilterTodosAPI = statusOfList => {
-  return (dispatch, getState) => {
+  return dispatch => {
     const todos = todosAPI.filerByStatus(statusOfList);
     dispatch(getFilterTodos(statusOfList, todos));
   };

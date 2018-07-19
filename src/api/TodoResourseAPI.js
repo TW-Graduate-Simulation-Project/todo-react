@@ -23,6 +23,7 @@ const todosAPI = {
     if (todo !== undefined) {
       todo.content = content;
     }
+    return { ...todo };
   },
   deepCopy(array) {
     return JSON.parse(JSON.stringify(array));
