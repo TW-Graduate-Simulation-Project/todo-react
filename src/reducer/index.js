@@ -8,7 +8,9 @@ export default (state = [], action) => {
     case 'TOGGLE_TODO_STATUS':
       return state.map(
         todo =>
-          todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+          todo.viewId === action.id
+            ? { ...todo, status: Todo.getToggleStatus(todo.status) }
+            : todo
       );
     default:
       return state;
