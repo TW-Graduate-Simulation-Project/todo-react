@@ -3,8 +3,28 @@ import axios from 'axios';
 
 const todosAPI = {
   todos: [],
-  add(item) {
-    this.todos.push(item);
+  apiUrl: 'http://5b4dcb2aec112500143a2311.mockapi.io/api',
+  add(todo, successCallBack) {
+    // this.todos.push(todo, successCallBack);
+    axios
+      .post(`${this.apiUrl}/todos`, {
+        id: todo.viewId,
+        content: todo.content,
+        status: todo.status
+      })
+      .then(function(response) {
+        console.log(response.data);
+        successCallBack(
+          new Todo(
+            response.data.id,
+            response.data.content,
+            response.data.status
+          )
+        );
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   },
   filerByStatus(status, successCallBack) {
     let filterStatus = status;
@@ -12,14 +32,13 @@ const todosAPI = {
       filterStatus = '';
     }
     axios
-      .get('http://5b4dcb2aec112500143a2311.mockapi.io/api/todos', {
+      .get(`${this.apiUrl}/todos`, {
         params: {
           search: filterStatus
         }
       })
       .then(function(response) {
         // handle success
-        console.log(response.data);
         successCallBack(
           response.data.map(
             todo => new Todo(todo.id, todo.content, todo.status)
@@ -29,11 +48,7 @@ const todosAPI = {
       .catch(function(error) {
         // handle error
         console.log(error);
-      })
-      .then(function() {
-        // always executed
       });
-    // return this.deepCopy(this.todos.filter(item => item.status === status));
   },
   toggleActive(viewId) {
     const todo = this.todos.find(item => item.viewId === viewId);
