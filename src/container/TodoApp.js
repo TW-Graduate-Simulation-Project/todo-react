@@ -9,7 +9,7 @@ import {
   addTodoAPI,
   updateTodoAPI,
   toggleTodoAPI,
-  getFilterTodos
+  getFilterTodosAPI
 } from '../action';
 
 class TodoApp extends Component {
@@ -158,7 +158,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onToggleTodo: id => dispatch(toggleTodoAPI(id)),
   onAddTodo: content => dispatch(addTodoAPI(content)),
-  onFilerTodos: statusOfList => dispatch(getFilterTodos(statusOfList)),
+  onFilerTodos: statusOfList => dispatch(getFilterTodosAPI(statusOfList)),
   onUpdateTodo: (id, content) => dispatch(updateTodoAPI(id, content))
 });
 

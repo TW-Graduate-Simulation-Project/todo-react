@@ -6,8 +6,9 @@ export const addTodo = content => ({
   content
 });
 
-export const getFilterTodos = statusOfList => ({
+export const getFilterTodos = (statusOfList, todos) => ({
   type: 'GET_FILTER_TODOS',
+  todos,
   statusOfList
 });
 
@@ -22,24 +23,29 @@ export const updateTodo = (id, content) => ({
   content
 });
 
-export const addTodoAPI = content => {
-  return (dispatch, getState) => {
-    let todo = new Todo(content);
-    todosAPI.add(todo);
-    dispatch(getFilterTodos(getState().statusOfList));
-  };
+export const addTodoAPI = content => (dispatch, getState) => {
+  let todo = new Todo(content);
+  todosAPI.add(todo);
+  dispatch(getFilterTodosAPI(getState().statusOfList));
 };
 
 export const updateTodoAPI = (id, content) => {
   return (dispatch, getState) => {
     todosAPI.updateItemContent(id, content);
-    dispatch(getFilterTodos(getState().statusOfList));
+    dispatch(getFilterTodosAPI(getState().statusOfList));
   };
 };
 
 export const toggleTodoAPI = id => {
   return (dispatch, getState) => {
     todosAPI.toggleActive(id);
-    dispatch(getFilterTodos(getState().statusOfList));
+    dispatch(getFilterTodosAPI(getState().statusOfList));
+  };
+};
+
+export const getFilterTodosAPI = statusOfList => {
+  return (dispatch, getState) => {
+    const todos = todosAPI.filerByStatus(statusOfList);
+    dispatch(getFilterTodos(statusOfList, todos));
   };
 };

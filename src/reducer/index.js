@@ -4,7 +4,6 @@ import todosAPI from '../api/TodoResourseAPI';
 export default (state = { todos: [], statusOfList: Todo.ALL }, action) => {
   switch (action.type) {
     case 'ADD_TODO': {
-      console.log(action);
       let todo = new Todo(action.content);
       todosAPI.add(todo);
       return {
@@ -19,13 +18,13 @@ export default (state = { todos: [], statusOfList: Todo.ALL }, action) => {
         todos: [...todosAPI.filerByStatus(state.statusOfList)]
       };
     case 'GET_FILTER_TODOS':
-      console.log(action.statusOfList);
+      console.log('cal me ~~~~~~~~~~~~~~~~~~~');
+      console.log(action.todos);
       return {
-        todos: [...todosAPI.filerByStatus(action.statusOfList)],
+        todos: [...action.todos],
         statusOfList: action.statusOfList
       };
     case 'UPDATE_TODO':
-      console.log(state.todos);
       todosAPI.updateItemContent(action.id, action.content);
       return {
         ...state,
