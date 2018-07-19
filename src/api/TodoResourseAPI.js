@@ -69,12 +69,24 @@ const todosAPI = {
         console.log(error);
       });
   },
-  updateItemContent(viewId, content) {
-    const todo = this.todos.find(item => item.viewId === viewId);
-    if (todo !== undefined) {
-      todo.content = content;
-    }
-    return { ...todo };
+  updateItemContent(viewId, content, successCallBack) {
+    axios
+      .put(`${this.apiUrl}/todos/${viewId}`, {
+        content: content
+      })
+      .then(function(response) {
+        console.log(response.data);
+        successCallBack(
+          new Todo(
+            response.data.id,
+            response.data.content,
+            response.data.status
+          )
+        );
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   },
   deepCopy(array) {
     return JSON.parse(JSON.stringify(array));

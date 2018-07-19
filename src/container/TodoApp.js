@@ -134,8 +134,9 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     });
   },
   onUpdateTodo: (id, content) => {
-    const todo = todosAPI.updateItemContent(id, content);
-    return dispatch(updateTodo(todo));
+    todosAPI.updateItemContent(id, content, todo => {
+      dispatch(updateTodo(todo));
+    });
   }
 });
 
