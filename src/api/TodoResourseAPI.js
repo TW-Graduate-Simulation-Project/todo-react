@@ -7,18 +7,19 @@ const todosAPI = {
   },
   filerByStatus(status) {
     if (status === Todo.ALL) {
-      return this.todos;
+      return this.deepCopy(this.todos);
     }
-    return this.todos.filter(item => item.status === status);
+    return this.deepCopy(this.todos.filter(item => item.status === status));
   },
   toggleActive(viewId) {
-    let todo = this.todos.find(item => item.viewId === viewId);
+    const todo = this.todos.find(item => item.viewId === viewId);
     if (todo !== undefined) {
       todo.toggleActive();
     }
+    return { ...todo };
   },
   updateItemContent(viewId, content) {
-    let todo = this.todos.find(item => item.viewId === viewId);
+    const todo = this.todos.find(item => item.viewId === viewId);
     if (todo !== undefined) {
       todo.content = content;
     }

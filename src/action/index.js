@@ -1,9 +1,9 @@
 import todosAPI from '../api/TodoResourseAPI';
 import Todo from '../model/Todo';
 
-export const addTodo = content => ({
+export const addTodo = todo => ({
   type: 'ADD_TODO',
-  content
+  todo
 });
 
 export const getFilterTodos = (statusOfList, todos) => ({
@@ -12,9 +12,9 @@ export const getFilterTodos = (statusOfList, todos) => ({
   statusOfList
 });
 
-export const toggleTodo = id => ({
+export const toggleTodo = todo => ({
   type: 'TOGGLE_TODO_STATUS',
-  id
+  todo
 });
 
 export const updateTodo = (id, content) => ({
@@ -24,9 +24,9 @@ export const updateTodo = (id, content) => ({
 });
 
 export const addTodoAPI = content => (dispatch, getState) => {
-  let todo = new Todo(content);
+  const todo = new Todo(content);
   todosAPI.add(todo);
-  dispatch(getFilterTodosAPI(getState().statusOfList));
+  dispatch(addTodo({ ...todo }));
 };
 
 export const updateTodoAPI = (id, content) => {
@@ -38,8 +38,8 @@ export const updateTodoAPI = (id, content) => {
 
 export const toggleTodoAPI = id => {
   return (dispatch, getState) => {
-    todosAPI.toggleActive(id);
-    dispatch(getFilterTodosAPI(getState().statusOfList));
+    const todo = todosAPI.toggleActive(id);
+    dispatch(toggleTodo(todo));
   };
 };
 
