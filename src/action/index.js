@@ -29,3 +29,17 @@ export const addTodoAPI = content => {
     dispatch(getFilterTodos(getState().statusOfList));
   };
 };
+
+export const updateTodoAPI = (id, content) => {
+  return (dispatch, getState) => {
+    todosAPI.updateItemContent(id, content);
+    dispatch(getFilterTodos(getState().statusOfList));
+  };
+};
+
+export const toggleTodoAPI = id => {
+  return (dispatch, getState) => {
+    todosAPI.toggleActive(id);
+    dispatch(getFilterTodos(getState().statusOfList));
+  };
+};
