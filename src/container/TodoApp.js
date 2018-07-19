@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './App.css';
-import Todo from './model/Todo';
-import TodoItem from './component/TodoItem';
+import '../App.css';
+import Todo from '../model/Todo';
+import TodoItem from '../component/TodoItem';
 import classNames from 'classnames';
-import todosAPI from './api/TodoResourseAPI';
-import { addTodo, updateTodo, toggleTodo, getFilterTodos } from './action';
+import todosAPI from '../api/TodoResourseAPI';
+import { addTodo, updateTodo, toggleTodo, getFilterTodos } from '../action';
 
 class TodoApp extends Component {
   constructor(props) {
