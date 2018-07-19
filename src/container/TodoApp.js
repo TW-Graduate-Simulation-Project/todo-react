@@ -117,13 +117,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     return dispatch(toggleTodo(todo));
   },
   onAddTodo: content => {
-    const todo = new Todo(content);
+    const todo = new Todo(new Date().getTime(), content, Todo.ACTIVE);
     todosAPI.add(todo);
     return dispatch(addTodo(todo));
   },
   onFilerTodos: statusOfList => {
-    const todos = todosAPI.filerByStatus(statusOfList);
-    return dispatch(getFilterTodos(statusOfList, todos));
+    todosAPI.filerByStatus(statusOfList, todos => {
+      dispatch(getFilterTodos(statusOfList, todos));
+    });
   },
   onUpdateTodo: (id, content) => {
     const todo = todosAPI.updateItemContent(id, content);

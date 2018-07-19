@@ -1,8 +1,14 @@
 export default class Todo {
-  constructor(content) {
+  // constructor(content) {
+  //   this.content = content;
+  //   this.status = Todo.ACTIVE;
+  //   this.viewId = new Date().getTime();
+  // }
+
+  constructor(id, content, status) {
     this.content = content;
-    this.status = Todo.ACTIVE;
-    this.viewId = new Date().getTime();
+    this.status = status;
+    this.viewId = id;
   }
 
   static get ACTIVE() {
