@@ -50,12 +50,24 @@ const todosAPI = {
         console.log(error);
       });
   },
-  toggleActive(viewId) {
-    const todo = this.todos.find(item => item.viewId === viewId);
-    if (todo !== undefined) {
-      todo.toggleActive();
-    }
-    return { ...todo };
+  toggleActive(todo, successCallBack) {
+    axios
+      .put(`${this.apiUrl}/todos/${todo.viewId}`, {
+        status: Todo.getToggleStatus(todo.status)
+      })
+      .then(function(response) {
+        console.log(response.data);
+        successCallBack(
+          new Todo(
+            response.data.id,
+            response.data.content,
+            response.data.status
+          )
+        );
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   },
   updateItemContent(viewId, content) {
     const todo = this.todos.find(item => item.viewId === viewId);
