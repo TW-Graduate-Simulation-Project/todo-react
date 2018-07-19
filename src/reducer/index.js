@@ -1,29 +1,26 @@
 import Todo from '../model/Todo';
+import todosAPI from '../api/TodoResourseAPI';
 
 export default (state = { todos: [], statusOfList: Todo.ALL }, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       console.log(action);
+      let todo = new Todo(action.content);
+      todosAPI.add(todo);
       return {
         ...state,
-        todos: [...state.todos, new Todo(action.content)]
+        todos: [...todosAPI.filerByStatus(state.statusOfList)]
       };
     case 'TOGGLE_TODO_STATUS':
+      todosAPI.toggleActive(action.id);
       return {
         ...state,
-        todos: state.todos.map(
-          todo =>
-            todo.viewId === action.id
-              ? { ...todo, status: Todo.getToggleStatus(todo.status) }
-              : todo
-        )
+        todos: [...todosAPI.filerByStatus(state.statusOfList)]
       };
     case 'GET_FILTER_TODOS':
-      if (action.statusOfList === Todo.ALL) {
-        return { ...state, todo: [...state.todos] };
-      }
+      console.log(action.statusOfList);
       return {
-        todos: state.todos.filter(item => item.status === action.statusOfList),
+        todos: [...todosAPI.filerByStatus(action.statusOfList)],
         statusOfList: action.statusOfList
       };
     default:
