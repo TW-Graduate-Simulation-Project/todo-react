@@ -48,8 +48,9 @@ class TodoApp extends Component {
     // console.log(this.state.todos);
     const statusOfList = event.target.attributes.getNamedItem('data-filter')
       .value;
-    const todos = this.deepCopy(this.todosAPI.filerByStatus(statusOfList));
-    this.setState({ todos, statusOfList });
+    this.props.onFilerTodos(statusOfList);
+    // const todos = this.deepCopy(this.todosAPI.filerByStatus(statusOfList));
+    // this.setState({ todos, statusOfList });
   }
 
   updateItemContent(viewId, content) {
@@ -98,16 +99,61 @@ class TodoApp extends Component {
             ))}
           </ol>
         </div>
+        <div>
+          <ul className="filters">
+            <li>
+              <a
+                href="#all"
+                onClick={e => this.showFilterList(e)}
+                data-filter="all"
+                className={classNames({
+                  selected: this.props.statusOfList === Todo.ALL
+                })}
+              >
+                ALL
+              </a>
+            </li>
+            <li>
+              <a
+                href="#active"
+                onClick={e => this.showFilterList(e)}
+                data-filter="active"
+                className={classNames({
+                  selected: this.props.statusOfList === Todo.ACTIVE
+                })}
+              >
+                Active
+              </a>
+            </li>
+            <li>
+              <a
+                href="#completed"
+                onClick={e => this.showFilterList(e)}
+                data-filter="completed"
+                className={classNames({
+                  selected: this.props.statusOfList === Todo.COMPLETED
+                })}
+              >
+                Complete
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ todos: state });
+const mapStateToProps = state => ({
+  todos: state.todos,
+  statusOfList: state.statusOfList
+});
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onToggleTodo: id => dispatch({ type: 'TOGGLE_TODO_STATUS', id }),
-  onAddTodo: content => dispatch({ type: 'ADD_TODO', content })
+  onAddTodo: content => dispatch({ type: 'ADD_TODO', content }),
+  onFilerTodos: statusOfList =>
+    dispatch({ type: 'GET_FILTER_TODOS', statusOfList })
 });
 
 export default connect(
