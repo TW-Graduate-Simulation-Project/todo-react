@@ -93,7 +93,7 @@ class TodoApp extends Component {
                 key={item.viewId}
                 toggleActiveHandler={viewId => this.props.onToggleTodo(viewId)}
                 updateItemContent={(viewId, content) =>
-                  this.updateItemContent(viewId, content)
+                  this.props.onUpdateTodo(viewId, content)
                 }
               />
             ))}
@@ -153,7 +153,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   onToggleTodo: id => dispatch({ type: 'TOGGLE_TODO_STATUS', id }),
   onAddTodo: content => dispatch({ type: 'ADD_TODO', content }),
   onFilerTodos: statusOfList =>
-    dispatch({ type: 'GET_FILTER_TODOS', statusOfList })
+    dispatch({ type: 'GET_FILTER_TODOS', statusOfList }),
+  onUpdateTodo: (id, content) => dispatch({ type: 'UPDATE_TODO', id, content })
 });
 
 export default connect(
