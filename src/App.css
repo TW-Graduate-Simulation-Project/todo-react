@@ -40,6 +40,7 @@ input {
   border-radius: 5px;
   text-align: center;
   margin-top: 2px;
+  margin-left: 5px;
   padding: 5px 15px;
 }
 
@@ -55,6 +56,10 @@ ol {
 ol li {
   padding: 5px;
   color: #000;
+}
+
+ol li span.text-wrapper {
+  word-break: break-all;
 }
 
 ol li:nth-child(even) {

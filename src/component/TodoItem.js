@@ -39,7 +39,10 @@ class TodoItem extends Component {
             onClick={e => this.toggleActive(item.viewId)}
           />
         }
-        <span onDoubleClick={e => this.changeToEditable(e)}>
+        <span
+          className="text-wrapper"
+          onDoubleClick={e => this.changeToEditable(e)}
+        >
           {this.state.status === 'read' ? (
             item.content
           ) : (

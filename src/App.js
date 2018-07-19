@@ -14,7 +14,6 @@ class App extends Component {
       todos: [],
       statusOfList: Todo.ALL
     };
-    console.log('1111111111');
   }
 
   componentDidMount() {
