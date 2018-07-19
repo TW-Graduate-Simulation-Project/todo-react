@@ -4,12 +4,8 @@ import '../App.css';
 import Todo from '../model/Todo';
 import TodoItem from '../component/TodoItem';
 import classNames from 'classnames';
-import {
-  addTodoAPI,
-  updateTodoAPI,
-  toggleTodoAPI,
-  getFilterTodosAPI
-} from '../action';
+import todosAPI from '../api/TodoResourseAPI';
+import { addTodo, updateTodo, toggleTodo, getFilterTodos } from '../action';
 
 class TodoApp extends Component {
   componentDidMount() {
@@ -116,10 +112,23 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  onToggleTodo: id => dispatch(toggleTodoAPI(id)),
-  onAddTodo: content => dispatch(addTodoAPI(content)),
-  onFilerTodos: statusOfList => dispatch(getFilterTodosAPI(statusOfList)),
-  onUpdateTodo: (id, content) => dispatch(updateTodoAPI(id, content))
+  onToggleTodo: id => {
+    const todo = todosAPI.toggleActive(id);
+    return dispatch(toggleTodo(todo));
+  },
+  onAddTodo: content => {
+    const todo = new Todo(content);
+    todosAPI.add(todo);
+    return dispatch(addTodo(todo));
+  },
+  onFilerTodos: statusOfList => {
+    const todos = todosAPI.filerByStatus(statusOfList);
+    return dispatch(getFilterTodos(statusOfList, todos));
+  },
+  onUpdateTodo: (id, content) => {
+    const todo = todosAPI.updateItemContent(id, content);
+    return dispatch(updateTodo(todo));
+  }
 });
 
 export default connect(
