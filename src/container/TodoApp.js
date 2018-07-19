@@ -4,7 +4,6 @@ import '../App.css';
 import Todo from '../model/Todo';
 import TodoItem from '../component/TodoItem';
 import classNames from 'classnames';
-import todosAPI from '../api/TodoResourseAPI';
 import {
   addTodoAPI,
   updateTodoAPI,
@@ -13,63 +12,24 @@ import {
 } from '../action';
 
 class TodoApp extends Component {
-  constructor(props) {
-    super(props);
-    this.todosAPI = todosAPI;
-
-    // this.state = {
-    //   // todos: [],
-    //   statusOfList: Todo.ALL
-    // };
-  }
-
   componentDidMount() {
-    // this.setState({
-    //   todos: this.deepCopy(this.todosAPI.filerByStatus(Todo.ALL))
-    // });
+    this.setState({
+      todos: this.props.onFilerTodos(Todo.ALL)
+    });
   }
 
   add = event => {
     if (event.keyCode === 13) {
-      // this.todosAPI.add(new Todo(this.refs.newItem.value));
-      // const todos = this.deepCopy(
-      //   this.todosAPI.filerByStatus(this.state.statusOfList)
-      // );
-      // this.setState({ todos });
       this.props.onAddTodo(this.refs.newItem.value);
       this.refs.newItem.value = '';
-      // console.log(todos);
     }
   };
 
-  toggleActive(viewId) {
-    this.todosAPI.toggleActive(viewId);
-    const todos = this.deepCopy(
-      this.todosAPI.filerByStatus(this.state.statusOfList)
-    );
-    this.setState({ todos });
-  }
-
-  showFilterList(event) {
-    // console.log(this.state.todos);
+  showFilterList = event => {
     const statusOfList = event.target.attributes.getNamedItem('data-filter')
       .value;
     this.props.onFilerTodos(statusOfList);
-    // const todos = this.deepCopy(this.todosAPI.filerByStatus(statusOfList));
-    // this.setState({ todos, statusOfList });
-  }
-
-  updateItemContent(viewId, content) {
-    this.todosAPI.updateItemContent(viewId, content);
-    const todos = this.deepCopy(
-      this.todosAPI.filerByStatus(this.state.statusOfList)
-    );
-    this.setState({ todos, statusOfList: this.state.statusOfList });
-  }
-
-  deepCopy(array) {
-    return JSON.parse(JSON.stringify(array));
-  }
+  };
 
   render() {
     return (
@@ -110,7 +70,7 @@ class TodoApp extends Component {
             <li>
               <a
                 href="#all"
-                onClick={e => this.showFilterList(e)}
+                onClick={this.showFilterList}
                 data-filter="all"
                 className={classNames({
                   selected: this.props.statusOfList === Todo.ALL
@@ -122,7 +82,7 @@ class TodoApp extends Component {
             <li>
               <a
                 href="#active"
-                onClick={e => this.showFilterList(e)}
+                onClick={this.showFilterList}
                 data-filter="active"
                 className={classNames({
                   selected: this.props.statusOfList === Todo.ACTIVE
@@ -134,7 +94,7 @@ class TodoApp extends Component {
             <li>
               <a
                 href="#completed"
-                onClick={e => this.showFilterList(e)}
+                onClick={this.showFilterList}
                 data-filter="completed"
                 className={classNames({
                   selected: this.props.statusOfList === Todo.COMPLETED
