@@ -5,7 +5,7 @@ import Todo from '../model/Todo';
 import TodoItem from '../component/TodoItem';
 import classNames from 'classnames';
 import todosAPI from '../api/TodoResourseAPI';
-import { addTodo, updateTodo, toggleTodo, getFilterTodos } from '../action';
+import { addTodoAPI, updateTodo, toggleTodo, getFilterTodos } from '../action';
 
 class TodoApp extends Component {
   constructor(props) {
@@ -152,7 +152,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   onToggleTodo: id => dispatch(toggleTodo(id)),
-  onAddTodo: content => dispatch(addTodo(content)),
+  onAddTodo: content => dispatch(addTodoAPI(content)),
   onFilerTodos: statusOfList => dispatch(getFilterTodos(statusOfList)),
   onUpdateTodo: (id, content) => dispatch(updateTodo(id, content))
 });
