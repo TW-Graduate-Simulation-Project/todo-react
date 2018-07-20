@@ -14,11 +14,15 @@ class TodoApp extends Component {
     });
   }
 
-  add = event => {
+  addByEnter = event => {
     if (event.keyCode === 13) {
-      this.props.onAddTodo(this.refs.newItem.value);
-      this.refs.newItem.value = '';
+      this.add();
     }
+  };
+
+  add = () => {
+    this.props.onAddTodo(this.refs.newItem.value);
+    this.refs.newItem.value = '';
   };
 
   showFilterList = event => {
@@ -39,7 +43,7 @@ class TodoApp extends Component {
         <div>
           <input
             className="input-text"
-            onKeyUp={this.add}
+            onKeyUp={this.addByEnter}
             id="todo-creator"
             ref="newItem"
           />
@@ -111,7 +115,7 @@ const mapStateToProps = state => ({
   statusOfList: state.statusOfList
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = dispatch => ({
   onToggleTodo: id => {
     const todo = todosAPI.toggleActive(id);
     return dispatch(toggleTodo(todo));
