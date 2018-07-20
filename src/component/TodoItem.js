@@ -15,8 +15,14 @@ class TodoItem extends Component {
   }
 
   updateItem(e, viewId, content) {
+    if (e.keyCode === 27) {
+      this.setState({ status: 'read' });
+    }
+
     if (e.keyCode === 13) {
-      this.props.updateItemContent(viewId, content);
+      if (this.props.item.content !== content) {
+        this.props.updateItemContent(viewId, content);
+      }
       // console.log(this.props.item);
       this.setState({ status: 'read' });
     }
