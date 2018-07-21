@@ -9,9 +9,7 @@ import { addTodo, updateTodo, toggleTodo, getFilterTodos } from '../action';
 
 class TodoApp extends Component {
   componentDidMount() {
-    this.setState({
-      todos: this.props.onFilerTodos(Todo.ALL)
-    });
+    this.props.onFilerTodos(Todo.ALL);
   }
 
   add = () => {
