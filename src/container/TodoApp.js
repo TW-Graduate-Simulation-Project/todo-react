@@ -56,9 +56,7 @@ class TodoApp extends Component {
                 item={item}
                 key={item.viewId}
                 toggleActiveHandler={item => this.props.onToggleTodo(item)}
-                updateItemContent={(viewId, content) =>
-                  this.props.onUpdateTodo(viewId, content)
-                }
+                updateItemContent={item => this.props.onUpdateTodo(item)}
               />
             ))}
           </ol>
@@ -131,8 +129,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
       dispatch(getFilterTodos(statusOfList, todos));
     });
   },
-  onUpdateTodo: (id, content) => {
-    todosAPI.updateItemContent(id, content, todo => {
+  onUpdateTodo: newTodo => {
+    todosAPI.updateItemContent(newTodo, todo => {
       dispatch(updateTodo(todo));
     });
   }

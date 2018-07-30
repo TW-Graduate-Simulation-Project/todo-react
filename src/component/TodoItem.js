@@ -14,14 +14,15 @@ class TodoItem extends Component {
     this.setState({ status: 'write' });
   }
 
-  updateItem(e, viewId, content) {
+  updateItem(e, oldTodo, content) {
     if (e.keyCode === 27) {
       this.setState({ status: 'read' });
     }
 
     if (e.keyCode === 13) {
       if (this.props.item.content !== content) {
-        this.props.updateItemContent(viewId, content);
+        oldTodo.content = content;
+        this.props.updateItemContent(oldTodo);
       }
       // console.log(this.props.item);
       this.setState({ status: 'read' });
@@ -56,9 +57,7 @@ class TodoItem extends Component {
               autoFocus
               className="edit-input"
               defaultValue={item.content}
-              onKeyUp={e =>
-                this.updateItem(e, item.viewId, e.currentTarget.value)
-              }
+              onKeyUp={e => this.updateItem(e, item, e.currentTarget.value)}
             />
           )}
         </span>

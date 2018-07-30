@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const todosAPI = {
   todos: [],
-  apiUrl: 'http://5b4dcb2aec112500143a2311.mockapi.io/api',
+  apiUrl: 'https://todo-list-data-api.herokuapp.com/api',
   add(todo, successCallBack) {
     // this.todos.push(todo, successCallBack);
     axios
@@ -29,18 +29,18 @@ const todosAPI = {
   filerByStatus(status, successCallBack) {
     let filterStatus = status;
     if (status === Todo.ALL) {
-      filterStatus = '';
+      filterStatus = `${Todo.ACTIVE}, ${Todo.COMPLETED}`;
     }
     axios
-      .get(`${this.apiUrl}/todos`, {
+      .get(`${this.apiUrl}/todos/search/statusOfTodos`, {
         params: {
-          search: filterStatus
+          status: filterStatus
         }
       })
       .then(function(response) {
         // handle success
         successCallBack(
-          response.data.map(
+          response.data._embedded.todos.map(
             todo => new Todo(todo.id, todo.content, todo.status)
           )
         );
@@ -53,7 +53,8 @@ const todosAPI = {
   toggleActive(todo, successCallBack) {
     axios
       .put(`${this.apiUrl}/todos/${todo.viewId}`, {
-        status: Todo.getToggleStatus(todo.status)
+        status: Todo.getToggleStatus(todo.status),
+        content: todo.content
       })
       .then(function(response) {
         console.log(response.data);
@@ -69,19 +70,16 @@ const todosAPI = {
         console.log(error);
       });
   },
-  updateItemContent(viewId, content, successCallBack) {
+  updateItemContent(todo, successCallBack) {
     axios
-      .put(`${this.apiUrl}/todos/${viewId}`, {
-        content: content
+      .put(`${this.apiUrl}/todos/${todo.viewId}`, {
+        content: todo.content,
+        status: todo.status
       })
       .then(function(response) {
         console.log(response.data);
         successCallBack(
-          new Todo(
-            response.data.id,
-            response.data.content,
-            response.data.status
-          )
+          new Todo(response.data.id, response.data.content, todo.status)
         );
       })
       .catch(function(error) {
