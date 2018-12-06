@@ -1,7 +1,11 @@
-language: javaScript
-
-script: true
-
+language: node_js
+node_js:
+  - "stable"
+cache:
+  directories:
+    - node_modules
+script:
+  - npm run build
 deploy:
  provider: heroku
  api_key: 77ea18dc-50f5-4afd-829e-e9a1a373b688
