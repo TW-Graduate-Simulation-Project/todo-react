@@ -1,0 +1,8 @@
+language: javaScript
+
+script: true
+
+deploy:
+ provider: heroku
+ api_key: 77ea18dc-50f5-4afd-829e-e9a1a373b688
+ app: react-todo-app
